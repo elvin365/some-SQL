@@ -19,7 +19,7 @@ use EducCenter;
 ----    RaspisanieZanyatij AS i1
 ----    LEFT JOIN RaspisanieZanyatij AS i2 ON i1.id = i2.id AND CONVERT(TIME,i2.VremyaNachala) > CONVERT(TIME,i1.VremyaNachala)
 
---почти
+--РїРѕС‡С‚Рё
 --SELECT l.id, l.VremyaNachala, min(r.VremyaNachala) 
 --FROM RaspisanieZanyatij l 
 --LEFT JOIN RaspisanieZanyatij r on (r.VremyaNachala > l.VremyaNachala)
@@ -99,10 +99,10 @@ use EducCenter;
 --SELECT KursNazvanie, VremyaNachala, (SELECT NumerPassporta FROM Prepodavatel WHERE Prepodavatel.RaspisanieKursNazvanie=KursNazvanie ) FROM RaspisanieZanyatij ORDER BY VremyaNachala ASC;
 
 
---1)--частично
+--1)--С‡Р°СЃС‚РёС‡РЅРѕ
 --SELECT KursNazvanie, VremyaNachala, (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = (SELECT NumerPassporta FROM Prepodavatel WHERE Prepodavatel.RaspisanieKursNazvanie=KursNazvanie))  FROM RaspisanieZanyatij ORDER BY VremyaNachala ASC;
 
---1, но lead
+--1, РЅРѕ lead
 
 --SELECT  KursNazvanie, 
 --LEAD(KursNazvanie) OVER(ORDER BY KursNazvanie) next_code
@@ -132,7 +132,7 @@ use EducCenter;
 
 ------------------------------------------------------------------------------------------------------------------------2
 
---2   Вывести ФИО всех преподавателей, которые также учились на курсах. Результат отсортировать по алфавиту.
+--2   Р’С‹РІРµСЃС‚Рё Р¤РРћ РІСЃРµС… РїСЂРµРїРѕРґР°РІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ С‚Р°РєР¶Рµ СѓС‡РёР»РёСЃСЊ РЅР° РєСѓСЂСЃР°С…. Р РµР·СѓР»СЊС‚Р°С‚ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°С‚СЊ РїРѕ Р°Р»С„Р°РІРёС‚Сѓ.
 
 --SELECT Chelovek.FIO FROM Chelovek 
 --JOIN 
@@ -140,7 +140,7 @@ use EducCenter;
 --ORDER BY Chelovek.FIO ASC;
 
 
---3 Вывести всех обучающихся и указать оценку по курсу «Литература» для всех, кто его проходил в формате: ФИО, Оценка
+--3 Р’С‹РІРµСЃС‚Рё РІСЃРµС… РѕР±СѓС‡Р°СЋС‰РёС…СЃСЏ Рё СѓРєР°Р·Р°С‚СЊ РѕС†РµРЅРєСѓ РїРѕ РєСѓСЂСЃСѓ В«Р›РёС‚РµСЂР°С‚СѓСЂР°В» РґР»СЏ РІСЃРµС…, РєС‚Рѕ РµРіРѕ РїСЂРѕС…РѕРґРёР» РІ С„РѕСЂРјР°С‚Рµ: Р¤РРћ, РћС†РµРЅРєР°
 
 
 --SELECT ObuchayushchijsyaNumerPassporta FROM Ocenka
@@ -148,20 +148,20 @@ use EducCenter;
  
 --SELECT Chelovek.FIO FROM Chelovek 
 --JOIN
---(SELECT ObuchayushchijsyaNumerPassporta,ItogovayaOcenka FROM Ocenka) AS PASS ON  Chelovek.NumerPassporta=PASS.ObuchayushchijsyaNumerPassporta  --имена
+--(SELECT ObuchayushchijsyaNumerPassporta,ItogovayaOcenka FROM Ocenka) AS PASS ON  Chelovek.NumerPassporta=PASS.ObuchayushchijsyaNumerPassporta  --РёРјРµРЅР°
 
- --3) ну почти
--- SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Литература'
- --SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ZHurnal_OcenokKursNazvanie,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Литература'
+ --3) РЅСѓ РїРѕС‡С‚Рё
+-- SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Р›РёС‚РµСЂР°С‚СѓСЂР°'
+ --SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ZHurnal_OcenokKursNazvanie,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Р›РёС‚РµСЂР°С‚СѓСЂР°'
 
- --3) ещё раз
+ --3) РµС‰С‘ СЂР°Р·
 
 -- SELECT T1.FIO, T2.ItogovayaOcenka FROM
 
 --(SELECT DISTINCT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO  FROM Ocenka) T1
 --LEFT JOIN 
   
---(SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Литература') T2
+--(SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Р›РёС‚РµСЂР°С‚СѓСЂР°') T2
 --ON T2.FIO=T1.FIO; 
 
 
@@ -169,9 +169,9 @@ use EducCenter;
 
 
 --SELECT DISTINCT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO  FROM Ocenka
---фамилии всех учников
---SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Литература'
---фамилии и оценки только тех, кто прохожил курс
+--С„Р°РјРёР»РёРё РІСЃРµС… СѓС‡РЅРёРєРѕРІ
+--SELECT (SELECT Chelovek.FIO FROM Chelovek WHERE Chelovek.NumerPassporta = ObuchayushchijsyaNumerPassporta) FIO ,ItogovayaOcenka FROM Ocenka WHERE ZHurnal_OcenokKursNazvanie='Р›РёС‚РµСЂР°С‚СѓСЂР°'
+--С„Р°РјРёР»РёРё Рё РѕС†РµРЅРєРё С‚РѕР»СЊРєРѕ С‚РµС…, РєС‚Рѕ РїСЂРѕС…РѕР¶РёР» РєСѓСЂСЃ
 
 
 
@@ -187,19 +187,19 @@ use EducCenter;
 
 
 
- --4--------------Вывести список ФИО преподавателей, которые никогда не выставляли ни одной оценки ниже 3
+ --4--------------Р’С‹РІРµСЃС‚Рё СЃРїРёСЃРѕРє Р¤РРћ РїСЂРµРїРѕРґР°РІР°С‚РµР»РµР№, РєРѕС‚РѕСЂС‹Рµ РЅРёРєРѕРіРґР° РЅРµ РІС‹СЃС‚Р°РІР»СЏР»Рё РЅРё РѕРґРЅРѕР№ РѕС†РµРЅРєРё РЅРёР¶Рµ 3
  
 
 
 --SELECT Chelovek.FIO FROM Chelovek 
 --JOIN
 --(SELECT P.NumerPassporta FROM Prepodavatel AS P
--- JOIN --даёт из названий курсов номера пасппаротов
+-- JOIN --РґР°С‘С‚ РёР· РЅР°Р·РІР°РЅРёР№ РєСѓСЂСЃРѕРІ РЅРѕРјРµСЂР° РїР°СЃРїРїР°СЂРѕС‚РѕРІ
 
---(SELECT  b.ZHurnal_OcenokKursNazvanie FROM Ocenka b -- все курсы
---EXCEPT  -- минус
+--(SELECT  b.ZHurnal_OcenokKursNazvanie FROM Ocenka b -- РІСЃРµ РєСѓСЂСЃС‹
+--EXCEPT  -- РјРёРЅСѓСЃ
 --SELECT a.ZHurnal_OcenokKursNazvanie FROM Ocenka a WHERE a.PromezhutochnyeOcenka1<=3 OR a.PromezhutochnyeOcenka2<=3 OR a.PromezhutochnyeOcenka3<=3 OR 
--- a.ItogovayaOcenka<=3) Raznost  -- таблица, где хотя бы 1 тройка
+-- a.ItogovayaOcenka<=3) Raznost  -- С‚Р°Р±Р»РёС†Р°, РіРґРµ С…РѕС‚СЏ Р±С‹ 1 С‚СЂРѕР№РєР°
 
 -- ON P.RaspisanieKursNazvanie=Raznost.ZHurnal_OcenokKursNazvanie) Pass
 -- ON Pass.NumerPassporta=Chelovek.NumerPassporta;
@@ -221,8 +221,8 @@ use EducCenter;
 
 
 
- -------5 Определить средний балл для каждого студента по завершенным курсам (по которым есть итоговая оценка).
- --------Выведите результат в виде ФИО – Средняя оценка отсортировав по оценке от максимальной к минимальной
+ -------5 РћРїСЂРµРґРµР»РёС‚СЊ СЃСЂРµРґРЅРёР№ Р±Р°Р»Р» РґР»СЏ РєР°Р¶РґРѕРіРѕ СЃС‚СѓРґРµРЅС‚Р° РїРѕ Р·Р°РІРµСЂС€РµРЅРЅС‹Рј РєСѓСЂСЃР°Рј (РїРѕ РєРѕС‚РѕСЂС‹Рј РµСЃС‚СЊ РёС‚РѕРіРѕРІР°СЏ РѕС†РµРЅРєР°).
+ --------Р’С‹РІРµРґРёС‚Рµ СЂРµР·СѓР»СЊС‚Р°С‚ РІ РІРёРґРµ Р¤РРћ вЂ“ РЎСЂРµРґРЅСЏСЏ РѕС†РµРЅРєР° РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РІ РїРѕ РѕС†РµРЅРєРµ РѕС‚ РјР°РєСЃРёРјР°Р»СЊРЅРѕР№ Рє РјРёРЅРёРјР°Р»СЊРЅРѕР№
 
 
 -- SELECT ObuchayushchijsyaNumerPassporta,AVG(ItogovayaOcenka) as Average FROM Ocenka GROUP BY ObuchayushchijsyaNumerPassporta;
